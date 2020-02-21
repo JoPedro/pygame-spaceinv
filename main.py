@@ -79,17 +79,17 @@ while running:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                 player_x_change = 0
 
+    # Spaceship movement
     player_x += player_x_change
 
-    # Spaceship movement
     if player_x <= 0:
         player_x = 0
     elif player_x >= 736:
         player_x = 736
 
+    # Enemy movement
     enemy_x += enemy_x_change
 
-    # Enemy movement
     if enemy_x <= 0:
         enemy_x_change = 0.2
         enemy_y += enemy_y_change
