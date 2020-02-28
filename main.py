@@ -28,17 +28,20 @@ player_x_change = 0
 enemy_img = pygame.image.load("img/alien1.png")
 enemy_x = random.randint(0, 736)
 enemy_y = random.randint(50, 150)
-enemy_x_change = 0.2
+enemy_x_change = 10
 enemy_y_change = 40
 
 # Bullet
 bullet_img = pygame.image.load("img/bullet.png")
 bullet_x = 0
 bullet_y = 480
-bullet_y_change = 1
+bullet_y_change = 3
 # Ready - Bullet is not visible
 # Fire - Bullet is moving
 bullet_state = "ready"
+
+MOVEEVENT, t = pygame.USEREVENT, 500
+pygame.time.set_timer(MOVEEVENT, t)
 
 def player(pos_x, pos_y):
     screen.blit(player_img, (pos_x, pos_y))
@@ -66,9 +69,9 @@ while running:
         # Keystroke direction check
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
-                player_x_change = -0.5
+                player_x_change = -1.5
             if event.key == pygame.K_RIGHT:
-                player_x_change = 0.5
+                player_x_change = 1.5
             if event.key == pygame.K_SPACE:
                 if bullet_state == "ready":
                     # Current x coordinate of spaceship
@@ -79,6 +82,21 @@ while running:
             if event.key == pygame.K_LEFT or event.key == pygame.K_RIGHT:
                 player_x_change = 0
 
+        if event.type == MOVEEVENT: # called every 't' milliseconds
+            # Enemy movement
+            enemy_x += enemy_x_change
+
+            if enemy_x <= 0:
+                if t > 50: t -= 50
+                pygame.time.set_timer(MOVEEVENT, t)
+                enemy_x_change = 10
+                enemy_y += enemy_y_change
+            elif enemy_x >= 736:
+                if t > 50: t -= 50
+                pygame.time.set_timer(MOVEEVENT, t)
+                enemy_x_change = -10
+                enemy_y += enemy_y_change
+
     # Spaceship movement
     player_x += player_x_change
 
@@ -86,16 +104,6 @@ while running:
         player_x = 0
     elif player_x >= 736:
         player_x = 736
-
-    # Enemy movement
-    enemy_x += enemy_x_change
-
-    if enemy_x <= 0:
-        enemy_x_change = 0.2
-        enemy_y += enemy_y_change
-    elif enemy_x >= 736:
-        enemy_x_change = -0.2
-        enemy_y += enemy_y_change
 
     # Bullet movement
     if bullet_y <= -32:
