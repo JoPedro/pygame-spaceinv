@@ -1,2 +1,2 @@
 # pygame-spaceinv
-pygame test
+Space Invaders-esque game using pygame
