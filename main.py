@@ -35,7 +35,7 @@ enemy_y_change = 40
 bullet_img = pygame.image.load("img/bullet.png")
 bullet_x = 0
 bullet_y = 480
-bullet_y_change = 3
+bullet_y_change = 2
 # Ready - Bullet is not visible
 # Fire - Bullet is moving
 bullet_state = "ready"
@@ -69,9 +69,9 @@ while running:
         # Keystroke direction check
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
-                player_x_change = -1.5
+                player_x_change = -1
             if event.key == pygame.K_RIGHT:
-                player_x_change = 1.5
+                player_x_change = 1
             if event.key == pygame.K_SPACE:
                 if bullet_state == "ready":
                     # Current x coordinate of spaceship
