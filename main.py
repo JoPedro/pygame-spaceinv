@@ -19,7 +19,14 @@ icon = pygame.image.load("img/ufo.png")
 pygame.display.set_icon(icon)
 
 # Score
-score = 0
+score_value = 0
+font = pygame.font.Font("freesansbold.ttf", 32)
+text_x = 10
+text_y = 10
+
+def show_score(x, y):
+    score = font.render("Score: " + str(score_value), True, (255, 255, 255))
+    screen.blit(score, (x, y))
 
 # Clock and FPS
 clock = pygame.time.Clock()
@@ -54,16 +61,16 @@ bullet_state = "ready"
 # MOVEEVENT, t = pygame.USEREVENT, 500
 # pygame.time.set_timer(MOVEEVENT, t)
 
-def player(pos_x, pos_y):
-    screen.blit(player_img, (pos_x, pos_y))
+def player(x, y):
+    screen.blit(player_img, (x, y))
 
-def enemy(pos_x, pos_y, i):
-    screen.blit(enemy_img[i], (pos_x, pos_y))
+def enemy(x, y, i):
+    screen.blit(enemy_img[i], (x, y))
 
-def fire_bullet(pos_x, pos_y):
+def fire_bullet(x, y):
     global bullet_state
     bullet_state = "fire"
-    screen.blit(bullet_img, (pos_x + 16, pos_y + 10))
+    screen.blit(bullet_img, (x + 16, y + 10))
 
 def is_collision(enemy_x, enemy_y, bullet_x, bullet_y):
     dist = math.sqrt((math.pow(enemy_x - bullet_x, 2)) + (math.pow(enemy_y - bullet_y, 2)))
@@ -138,11 +145,11 @@ while running:
         if collision:
             bullet_y = 480
             bullet_state = "ready"
-            score += 1
-            print(score)
+            score_value += 1
             enemy_x[i] = random.randint(0, 735)
             enemy_y[i] = random.randint(50, 150)
 
         enemy(enemy_x[i], enemy_y[i], i)
 
+    show_score(text_x, text_y)
     pygame.display.update()
