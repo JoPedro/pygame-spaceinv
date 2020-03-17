@@ -1,4 +1,4 @@
-"""This is a recreation of the Space Invaders game using PyGame"""
+"""This is a game loosely based on Space Invaders using PyGame"""
 
 import random
 import math
@@ -112,7 +112,7 @@ while running:
         # Keystroke direction check
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
-                player_x_change = -0.5 * fps
+                player_x_change = -0.5 * fps 
             if event.key == pygame.K_RIGHT:
                 player_x_change = 0.5 * fps
             if event.key == pygame.K_SPACE:
