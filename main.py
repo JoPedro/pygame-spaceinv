@@ -46,7 +46,8 @@ def show_score(x, y):
 
 # Clock and FPS
 clock = pygame.time.Clock()
-dt = clock.tick(60)
+framerate = 60
+fps = clock.tick(framerate)
 
 # Player
 player_img = pygame.image.load("img/ship.png")
@@ -62,14 +63,14 @@ for i in range(n_enemies):
     enemy_img.append(pygame.image.load("img/alien1.png"))
     enemy_x.append(random.randint(0, 735))
     enemy_y.append(random.randint(50, 150))
-    enemy_x_change.append(0.5 * dt)
+    enemy_x_change.append(0.5 * fps)
     enemy_y_change.append(40)
 
 # Bullet
 bullet_img = pygame.image.load("img/bullet.png")
 bullet_x = 0
 bullet_y = 480
-bullet_y_change = 2 * dt
+bullet_y_change = 2 * fps
 # Ready - Bullet is not visible
 # Fire - Bullet is moving
 bullet_state = "ready"
@@ -92,14 +93,15 @@ def is_collision(enemy_x, enemy_y, bullet_x, bullet_y):
     else:
         return False
 
+# Smooth movement
+pygame.key.set_repeat(10,10)
+
 # Main Game loop
 running = True
 while running:
     # Frame tick
-    dt = clock.tick(60)
+    fps = clock.tick(framerate)
 
-    # RGB Screen background color
-    screen.fill((67, 81, 122))
     # Background Image
     screen.blit(background, (0, 0))
 
@@ -110,9 +112,9 @@ while running:
         # Keystroke direction check
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
-                player_x_change = -0.5 * dt
+                player_x_change = -0.5 * fps
             if event.key == pygame.K_RIGHT:
-                player_x_change = 0.5 * dt
+                player_x_change = 0.5 * fps
             if event.key == pygame.K_SPACE:
                 if bullet_state == "ready":
                     bullet_sound = mixer.Sound("sfx/laser.wav")
@@ -156,17 +158,21 @@ while running:
             for k in pygame.event.get():
                 if k.type == pygame.KEYDOWN:
                     if k.key == pygame.K_SPACE:
-                        print("aslikd")
-                        continue
+                        score_value = 0
+                        player_y = 480
+                        for j in range(n_enemies):
+                            enemy_x_change[j] = 0.5 * fps
+                            enemy_x[j] = random.randint(0, 735)
+                            enemy_y[j] = random.randint(50, 150)                      
 
         # Enemy movement
         enemy_x[i] += enemy_x_change[i]
 
         if enemy_x[i] <= 0:
-            enemy_x_change[i] = 0.5 * dt
+            enemy_x_change[i] = 0.5 * fps
             enemy_y[i] += enemy_y_change[i]
         elif enemy_x[i] >= 735:
-            enemy_x_change[i] = -0.5 * dt
+            enemy_x_change[i] = -0.5 * fps
             enemy_y[i] += enemy_y_change[i]
 
         # Collision test
