@@ -30,7 +30,7 @@ press_cont = pygame.font.Font("freesansbold.ttf", 32)
 # Game over text
 def game_over_text():
     over_text = over_font.render("GAME OVER", True, (255, 255, 255))
-    presscont_text = press_cont.render("Press SPACE to continue", True, (255, 255, 255))
+    presscont_text = press_cont.render("Press ENTER to continue", True, (255, 255, 255))
     screen.blit(over_text, (200, 250))
     screen.blit(presscont_text, (200, 325))
 
@@ -157,7 +157,7 @@ while running:
             game_over_text()
             for k in pygame.event.get():
                 if k.type == pygame.KEYDOWN:
-                    if k.key == pygame.K_SPACE:
+                    if k.key == pygame.K_RETURN or k.key == pygame.K_KP_ENTER:
                         score_value = 0
                         player_y = 480
                         for j in range(n_enemies):
