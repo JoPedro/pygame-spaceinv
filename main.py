@@ -78,23 +78,18 @@ bullet_state = "ready"
 def player(x, y):
     screen.blit(player_img, (x, y))
 
-def enemy(x, y, i):
-    screen.blit(enemy_img[i], (x, y))
+def enemy(x, y, w):
+    screen.blit(enemy_img[w], (int(x), int(y)))
 
 def fire_bullet(x, y):
-    global bullet_state
-    bullet_state = "fire"
-    screen.blit(bullet_img, (x + 16, y + 10))
+    screen.blit(bullet_img, (int(x) + 16, int(y) + 10))
 
-def is_collision(enemy_x, enemy_y, bullet_x, bullet_y):
-    dist = math.sqrt((math.pow(enemy_x - bullet_x, 2)) + (math.pow(enemy_y - bullet_y, 2)))
-    if dist < 27:
-        return True
-    else:
-        return False
+def is_collision(x, y, x2, y2):
+    dist = math.sqrt((math.pow(x - x2, 2)) + (math.pow(y - y2, 2)))
+    return bool(dist < 27)
 
 # Smooth movement
-pygame.key.set_repeat(10,10)
+pygame.key.set_repeat(10)
 
 # Main Game loop
 running = True
@@ -144,7 +139,7 @@ while running:
         fire_bullet(bullet_x, bullet_y)
         bullet_y -= bullet_y_change
 
-    player(player_x, player_y)
+    player(int(player_x), int(player_y))
 
     for i in range(n_enemies):
         # Game Over
